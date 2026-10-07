@@ -1,22 +1,21 @@
 namespace WorkflowConfig.Domain.Constants;
 
 /// <summary>
-/// Mã nghiệp vụ của module cấu hình quy trình (port từ WorkFlowController MVC của VAS_CRM).
-/// Giá trị giữ nguyên như hệ thống cũ để dữ liệu cấu hình chuyển qua lại được.
+/// Mã nghiệp vụ của module cấu hình quy trình.
 /// </summary>
 public static class ConstWorkflow
 {
     /// <summary>Thư mục lưu ảnh đại diện workflow trong IFileStorage.</summary>
     public const string ImageFolder = "workflows";
 
-    /// <summary>Vị trí mặc định của nút rẽ nhánh (hình thoi) khi chưa từng kéo thả — giống hệ thống cũ.</summary>
+    /// <summary>Vị trí mặc định của nút rẽ nhánh (hình thoi) khi chưa từng kéo thả.</summary>
     public const int DefaultBranchX = 1031;
     public const int DefaultBranchY = 293;
 
     /// <summary>Ký tự nối FromStatusId và BranchKey thành id nút rẽ nhánh trên sơ đồ.</summary>
     public const char BranchNodeSeparator = '+';
 
-    /// <summary>Nhóm xử lý của trạng thái (Catalog "process" cũ).</summary>
+    /// <summary>Nhóm xử lý của trạng thái.</summary>
     public static class Process
     {
         public const string Todo = "todo";
@@ -25,7 +24,7 @@ public static class ConstWorkflow
         public const string Unmapped = "unmapped";
     }
 
-    /// <summary>Cách cập nhật người được phân công / người theo dõi khi chuyển trạng thái (ConstStatusTransition cũ).</summary>
+    /// <summary>Cách cập nhật người được phân công / người theo dõi khi chuyển trạng thái.</summary>
     public static class UpdateMode
     {
         public const string NotConfig = "NotConfig";
@@ -48,7 +47,7 @@ public static class ConstWorkflow
         public static readonly IReadOnlyList<string> All = [Top, Bottom, Left, Right];
     }
 
-    /// <summary>Cấu hình ký số của bước chuyển (TransitionSignConfig cũ).</summary>
+    /// <summary>Cấu hình ký số của bước chuyển.</summary>
     public static class Signature
     {
         public const string None = "NONE";
@@ -73,7 +72,7 @@ public static class ConstWorkflow
         public static readonly IReadOnlyList<string> All = [Push, Zalo, Email, Sms];
     }
 
-    /// <summary>Nguồn dữ liệu Zalo mặc định (DataZalo = Default) của hệ thống cũ.</summary>
+    /// <summary>Nguồn dữ liệu Zalo mặc định.</summary>
     public static class ZaloDefault
     {
         public const string Table = "TaskModel";

@@ -3,7 +3,7 @@ using WorkflowConfig.Domain.Entities.Workflows;
 
 namespace WorkflowConfig.Application.Features.V1.Workflows.Queries.GetTransition;
 
-/// <summary>Chi tiết bước chuyển cho form (_WFCreateTransition + CreateAutoCondtion + CreateNotificationConfig* cũ).</summary>
+/// <summary>Chi tiết bước chuyển cho form: thông tin, điều kiện tự động, cấu hình thông báo.</summary>
 public sealed record GetTransitionQuery(Guid WorkflowId, Guid TransitionId) : IRequest<TransitionDetailDto>;
 
 public sealed class GetTransitionQueryHandler(IUnitOfWork<WorkflowConfigDbContext> unitOfWork)

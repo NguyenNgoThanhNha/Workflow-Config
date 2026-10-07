@@ -34,7 +34,7 @@ public sealed class SearchWorkflowsQueryHandler(IUnitOfWork<WorkflowConfigDbCont
             })
             .ToListAsync(ct);
 
-        // Cột "Mã trạng thái" = các mã nối bằng '-' theo thứ tự; một query cho cả trang (không N+1 như repository cũ).
+        // Cột "Mã trạng thái" = các mã nối bằng '-' theo thứ tự; một query cho cả trang (không N+1).
         var ids = page.Select(w => w.Id).ToList();
         var statusCodes = (await unitOfWork.Repository<WorkflowStatus>().AsNoTracking()
                 .Where(s => ids.Contains(s.WorkflowId))

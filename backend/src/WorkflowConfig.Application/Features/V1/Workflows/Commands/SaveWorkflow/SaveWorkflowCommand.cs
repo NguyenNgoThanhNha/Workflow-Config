@@ -25,7 +25,7 @@ public sealed record WorkflowFieldConfigInput(
 
 /// <summary>
 /// Tạo (Id = null) hoặc sửa workflow cùng danh sách trạng thái và cấu hình thuộc tính
-/// (WorkFlowController.Create / Edit cũ). Ảnh đại diện upload riêng qua UploadWorkflowImageCommand.
+/// Ảnh đại diện upload riêng qua UploadWorkflowImageCommand.
 /// </summary>
 public sealed record SaveWorkflowCommand(
     string Code,
@@ -121,7 +121,7 @@ public sealed class SaveWorkflowCommandHandler(IUnitOfWork<WorkflowConfigDbConte
         workflow.CategoryCode = request.CategoryCode?.Trim();
         workflow.CompanyCode = request.CompanyCode?.Trim();
         workflow.OrderIndex = request.OrderIndex!.Value;
-        workflow.IsActive = request.IsActive ?? true; // không gửi → mặc định "Đang sử dụng" như hệ thống cũ
+        workflow.IsActive = request.IsActive ?? true; // không gửi → mặc định "Đang sử dụng"
         workflow.IsSummaryDisabled = request.IsSummaryDisabled;
         workflow.RefreshSearchText();
 
@@ -136,7 +136,7 @@ public sealed class SaveWorkflowCommandHandler(IUnitOfWork<WorkflowConfigDbConte
         return await WorkflowDetailReader.ReadAsync(unitOfWork, workflow.Id, ct);
     }
 
-    /// <summary>Hệ thống cũ xóa thẳng trạng thái bị bỏ khỏi form (lỗi FK nếu còn bước chuyển) — ở đây báo lỗi rõ ràng.</summary>
+    /// <summary>Trạng thái bị bỏ khỏi form mà còn bước chuyển → báo lỗi rõ ràng.</summary>
     private async Task EnsureRemovedStatusesAreFreeAsync(
         Guid workflowId, List<WorkflowStatus> existing, IReadOnlyList<WorkflowStatusInput> inputs, CancellationToken ct)
     {

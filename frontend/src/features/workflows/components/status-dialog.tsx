@@ -83,7 +83,7 @@ function ColorField({ control, name, label }: { control: ReturnType<typeof useFo
 }
 
 /**
- * Thêm / sửa trạng thái từ sơ đồ (_FormUpdateTaskStatus cũ): thông tin, màu, push notification
+ * Thêm / sửa trạng thái từ sơ đồ: thông tin, màu, push notification
  * và bảng "Cấu hình chỉnh sửa task" (Disable / Required theo người tạo, người được phân công, người theo dõi).
  */
 export function StatusDialog({
@@ -156,7 +156,7 @@ export function StatusDialog({
 
   const onProcessChange = (code: string, onChange: (v: string) => void) => {
     onChange(code);
-    // như ChangeColorByProcessing cũ: đổi nhóm xử lý → gợi ý màu mặc định của nhóm
+    // đổi nhóm xử lý → gợi ý màu mặc định của nhóm
     const p = processes.find((x) => x.code === code);
     if (p) {
       form.setValue('textColor', p.textColor, { shouldDirty: true });

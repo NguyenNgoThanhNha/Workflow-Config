@@ -13,7 +13,7 @@ public sealed record StatusFieldRuleInput(
     bool DisableForReporter,
     bool RequiredForReporter);
 
-/// <summary>Thêm (StatusId = null) hoặc sửa trạng thái từ sơ đồ (UpdateTaskStatus cũ), kèm quy tắc field theo vai trò.</summary>
+/// <summary>Thêm (StatusId = null) hoặc sửa trạng thái từ sơ đồ, kèm quy tắc field theo vai trò.</summary>
 public sealed record SaveWorkflowStatusCommand(
     string Code,
     string Name,
@@ -104,7 +104,7 @@ public sealed class SaveWorkflowStatusCommandHandler(IUnitOfWork<WorkflowConfigD
         return status.Id;
     }
 
-    /// <summary>Như bản cũ: xóa cấu hình cũ, chỉ giữ field có ít nhất một cờ được tick.</summary>
+    /// <summary>Chỉ giữ field có ít nhất một cờ được tick.</summary>
     private async Task SyncFieldRulesAsync(WorkflowStatus status, IReadOnlyList<StatusFieldRuleInput> inputs, CancellationToken ct)
     {
         var set = unitOfWork.Repository<WorkflowStatusFieldRule>();

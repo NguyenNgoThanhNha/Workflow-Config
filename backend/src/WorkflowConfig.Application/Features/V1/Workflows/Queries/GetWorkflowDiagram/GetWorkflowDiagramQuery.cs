@@ -5,7 +5,7 @@ using WorkflowConfig.Domain.Entities.Workflows;
 namespace WorkflowConfig.Application.Features.V1.Workflows.Queries.GetWorkflowDiagram;
 
 /// <summary>
-/// Dữ liệu sơ đồ workflow (WorkFlowController.Workflow + GetStatusTransition cũ):
+/// Dữ liệu sơ đồ workflow:
 /// - Ô trạng thái: màu riêng nếu đã đặt, không thì màu của nhóm xử lý.
 /// - Bước chuyển cùng FromStatus và cùng nhánh (≥ 2 bước) vẽ qua một nút hình thoi.
 /// - Nhãn mũi tên: tên bước chuyển + "(role)" khi giao theo nhóm, "(giá trị)" khi giao theo phòng ban.
@@ -39,7 +39,7 @@ public sealed class GetWorkflowDiagramQueryHandler(IUnitOfWork<WorkflowConfigDbC
                 })
             .ToListAsync(ct);
 
-        // Chưa từng kéo thả → xếp hàng ngang như bản cũ (left = 23 + 200*i, top = 100).
+        // Chưa từng kéo thả → xếp hàng ngang (x = 23 + 200*i, y = 100).
         var nodes = statuses.Select((s, i) =>
         {
             var useOwnColor = !string.IsNullOrEmpty(s.TextColor);

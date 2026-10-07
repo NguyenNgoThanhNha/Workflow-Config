@@ -1,6 +1,6 @@
 import type { Anchor } from './types';
 
-// Giá trị giữ nguyên như hệ thống cũ (ConstWorkflow.cs ở backend).
+// Khớp ConstWorkflow.cs ở backend.
 
 export const ANCHORS: readonly Anchor[] = ['Top', 'Bottom', 'Left', 'Right'];
 
@@ -42,7 +42,7 @@ export const NOTIFICATION_TYPE_OPTIONS = [
   { value: NOTIFICATION_TYPE.Sms, label: 'SMS' },
 ] as const;
 
-/** Nguồn dữ liệu Zalo "Mặc định" của hệ thống cũ. */
+/** Nguồn dữ liệu Zalo "Mặc định". */
 export const ZALO_DEFAULT = { table: 'TaskModel', field: 'Text7' } as const;
 
 export const CONDITION_CONNECTORS = ['AND', 'OR'] as const;
@@ -56,7 +56,7 @@ export const VALUE_TYPES = [
   { value: 'API', label: 'API' },
 ] as const;
 
-/** Ghép SQLText như form cũ: Connector + Field + Comparison + Value (không thêm khoảng trắng). */
+/** Ghép SQLText: Connector + Field + Comparison + Value (không thêm khoảng trắng). */
 export function buildSqlText(c: { connector?: string | null; field?: string | null; comparisonType?: string | null; value?: string | null }) {
   return `${c.connector ?? ''}${c.field ?? ''}${c.comparisonType ?? ''}${c.value ?? ''}`;
 }

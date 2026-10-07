@@ -7,7 +7,7 @@ namespace WorkflowConfig.Application.Features.V1.Workflows.Commands.CopyWorkflow
 
 /// <summary>
 /// Nhân bản workflow cùng toàn bộ cấu hình: trạng thái, bước chuyển, điều kiện tự động, thông báo (+Cc/Bcc/đính kèm),
-/// cấu hình field và quy tắc field theo trạng thái (WorkFlowController.Copy cũ).
+/// cấu hình field và quy tắc field theo trạng thái.
 /// </summary>
 public sealed record CopyWorkflowCommand(string Code, string Name, int? OrderIndex) : IRequest<WorkflowCopiedDto>
 {
@@ -91,7 +91,7 @@ public sealed class CopyWorkflowCommandHandler(IUnitOfWork<WorkflowConfigDbConte
         var recipientsByNotification = recipients.ToLookup(r => r.NotificationId);
         var attachmentsByNotification = attachments.ToLookup(a => a.NotificationId);
 
-        // Bước chuyển trỏ tới trạng thái không còn (dữ liệu cũ hỏng) thì bỏ qua — giống cách hệ thống cũ gán null.
+        // Bước chuyển trỏ tới trạng thái không còn (dữ liệu hỏng) thì bỏ qua.
         foreach (var t in transitions.Where(t => statusMap.ContainsKey(t.FromStatusId) && statusMap.ContainsKey(t.ToStatusId)))
         {
             var clone = new StatusTransition
@@ -160,8 +160,7 @@ public sealed class CopyWorkflowCommandHandler(IUnitOfWork<WorkflowConfigDbConte
             });
         }
 
-        // Một lần SaveChanges: FK đã khai trong model nên EF tự sắp thứ tự INSERT (cha trước con) — không cần
-        // SaveChanges nhiều lần + transaction thủ công như bản EF6 cũ.
+        // Một lần SaveChanges: FK đã khai trong model nên EF tự sắp thứ tự INSERT (cha trước con).
         await unitOfWork.SaveChangesAsync(ct);
         return new WorkflowCopiedDto(copy.Id, copy.Code, copy.Name);
     }

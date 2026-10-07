@@ -4,7 +4,7 @@ using WorkflowConfig.Domain.Entities.Workflows;
 namespace WorkflowConfig.Application.Features.V1.Workflows.Queries.GetTransitionTable;
 
 /// <summary>
-/// Bảng cấu hình bước chuyển dạng danh sách (màn Config cũ): mỗi trạng thái đang dùng × mỗi bước chuyển đi ra
+/// Bảng cấu hình bước chuyển dạng danh sách: mỗi trạng thái đang dùng × mỗi bước chuyển đi ra
 /// (trạng thái chưa có bước chuyển vẫn có một dòng).
 /// </summary>
 public sealed record GetTransitionTableQuery(Guid WorkflowId) : IRequest<IReadOnlyList<TransitionTableRowDto>>;

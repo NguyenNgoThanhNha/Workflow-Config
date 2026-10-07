@@ -9,8 +9,8 @@ using Serilog.Context;
 namespace WorkflowConfig.Api.Infrastructure;
 
 /// <summary>
-/// Ghi request/response API vào Sys_LogApi để debug (chuẩn BE §9.2) — phiên bản cải tiến của
-/// LoggingRequestResponseMiddleware (VAS_CRM_BE): không chặn request (đẩy vào Channel), che dữ liệu nhạy cảm,
+/// Ghi request/response API vào Sys_LogApi để debug (chuẩn BE §9.2) —
+/// không chặn request (đẩy vào Channel), che dữ liệu nhạy cảm,
 /// cắt body, có TraceId/DurationMs/Ip, lỗi của phần log không làm hỏng API.
 /// Đặt ĐẦU pipeline (bọc ngoài UseExceptionHandler) để thấy cả response lỗi.
 /// </summary>

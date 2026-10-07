@@ -86,7 +86,7 @@ function toRequest(values: WorkflowFormValues, rowVersion: string | null): Workf
 
 const TOP_FIELDS = ['code', 'name', 'categoryCode', 'companyCode', 'orderIndex', 'statuses', 'fields'] as const;
 
-/** Form tạo / sửa workflow (Create.cshtml / Edit.cshtml cũ). Trang cha đặt `key` theo rowVersion để nạp lại sau khi lưu. */
+/** Form tạo / sửa workflow. Trang cha đặt `key` theo rowVersion để nạp lại sau khi lưu. */
 export function WorkflowForm({
   detail,
   fieldTemplate,
@@ -235,7 +235,7 @@ export function WorkflowForm({
                   <FormItem className="flex flex-row items-center justify-between rounded-md border p-3">
                     <div>
                       <FormLabel>Khóa tiêu đề nhiệm vụ</FormLabel>
-                      <p className="text-xs text-muted-foreground">Không cho sửa trường Tiêu đề (IsDisabledSummary).</p>
+                      <p className="text-xs text-muted-foreground">Không cho sửa trường Tiêu đề khi tạo nhiệm vụ.</p>
                     </div>
                     <FormControl>
                       <Switch checked={field.value} onCheckedChange={field.onChange} />

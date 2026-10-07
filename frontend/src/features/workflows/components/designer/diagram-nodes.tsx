@@ -24,7 +24,7 @@ export const ANCHOR_POSITION: Record<Anchor, Position> = {
 const HANDLE_CLASS =
   '!size-2.5 !border-2 !border-background !bg-primary opacity-0 transition-opacity group-hover:opacity-100 group-[.selected]:opacity-100';
 
-/** 4 điểm nối (Top/Bottom/Left/Right) — id handle = tên anchor lưu ở StatusTransitionIn/Out. ConnectionMode.Loose nên nối 2 chiều. */
+/** 4 điểm nối (Top/Bottom/Left/Right) — id handle = tên anchor lưu ở SourceAnchor/TargetAnchor. ConnectionMode.Loose nên nối 2 chiều. */
 function AnchorHandles({ connectable }: { connectable: boolean }) {
   return (
     <>

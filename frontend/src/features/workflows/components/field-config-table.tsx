@@ -16,7 +16,7 @@ type FlagKey = 'isChosen' | 'isRequired' | 'hideWhenAdd' | 'hideWhenEdit';
 type Scope = 'chosen' | 'all';
 
 /**
- * "Cấu hình thuộc tính" (_FormWorkFlowField cũ). Bảng chính chỉ giữ cột hay dùng (hiển thị, field, bắt buộc, ghi chú);
+ * "Cấu hình thuộc tính". Bảng chính chỉ giữ cột hay dùng (hiển thị, field, bắt buộc, ghi chú);
  * tham số, ghi chú EN, ẩn / mặc định khi thêm–sửa nằm trong phần mở rộng của từng dòng.
  */
 export function FieldConfigTable({

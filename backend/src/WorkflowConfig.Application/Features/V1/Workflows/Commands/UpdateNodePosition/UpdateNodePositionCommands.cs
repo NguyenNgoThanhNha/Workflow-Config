@@ -4,7 +4,7 @@ using WorkflowConfig.Domain.Entities.Workflows;
 
 namespace WorkflowConfig.Application.Features.V1.Workflows.Commands.UpdateNodePosition;
 
-/// <summary>Lưu vị trí ô trạng thái sau khi kéo thả trên sơ đồ (UpdatePositionTaskTransition, shape = rectangle).</summary>
+/// <summary>Lưu vị trí ô trạng thái sau khi kéo thả trên sơ đồ.</summary>
 public sealed record UpdateStatusPositionCommand(int X, int Y) : IRequest
 {
     [JsonIgnore] public Guid WorkflowId { get; init; }
@@ -34,7 +34,7 @@ public sealed class UpdateStatusPositionCommandHandler(IUnitOfWork<WorkflowConfi
     }
 }
 
-/// <summary>Lưu vị trí nút rẽ nhánh (shape = rhombus): cập nhật mọi bước chuyển cùng FromStatus + BranchKey.</summary>
+/// <summary>Lưu vị trí nút rẽ nhánh: cập nhật mọi bước chuyển cùng FromStatus + BranchKey.</summary>
 public sealed record UpdateBranchPositionCommand(Guid FromStatusId, string BranchKey, int X, int Y) : IRequest
 {
     [JsonIgnore] public Guid WorkflowId { get; init; }

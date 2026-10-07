@@ -9,13 +9,13 @@ import { SegmentedControl } from '../form-layout';
 
 const NONE = '__none__';
 
-/** Một điều kiện: Nối (AND/OR) · Loại (FIELD/TIME) · Field · So sánh · Kiểu giá trị · Giá trị · SQL (_AutoCondition cũ). */
+/** Một điều kiện: Nối (AND/OR) · Loại (FIELD/TIME) · Field · So sánh · Kiểu giá trị · Giá trị · SQL. */
 function ConditionRow({ index, fields, onRemove }: { index: number; fields: { code: string; name: string }[]; onRemove: () => void }) {
   const { control, register, setValue, formState } = useFormContext<TransitionFormValues>();
   const row = useWatch({ control, name: `conditions.${index}` });
   const errors = formState.errors.conditions?.[index];
 
-  /** Như form cũ: đổi bất kỳ phần nào → ghép lại SQLText (người dùng vẫn sửa tay được sau đó). */
+  /** Đổi bất kỳ phần nào → ghép lại SQLText (người dùng vẫn sửa tay được sau đó). */
   const change = <K extends 'connector' | 'conditionType' | 'field' | 'comparisonType' | 'valueType' | 'value'>(key: K, value: string | null) => {
     // value null chỉ xảy ra với connector (cột nullable) — các cột còn lại luôn nhận chuỗi
     setValue(`conditions.${index}.${key}`, value as never, { shouldDirty: true, shouldValidate: formState.isSubmitted });

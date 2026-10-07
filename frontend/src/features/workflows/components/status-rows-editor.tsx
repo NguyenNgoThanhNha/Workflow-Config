@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils';
 import type { WorkflowFormValues } from '../schemas';
 import type { ProcessOption } from '../types';
 
-/** Bảng nhập trạng thái trên form workflow (_FormTaskStatus cũ): mã, tên, thứ tự, danh mục, nhóm xử lý. */
+/** Bảng nhập trạng thái trên form workflow: mã, tên, thứ tự, danh mục, nhóm xử lý. */
 export function StatusRowsEditor({
   control,
   register,

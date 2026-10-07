@@ -21,7 +21,7 @@ import { useWorkflow, useWorkflowDiagram, useWorkflowLookups } from '../hooks/us
 const VIEWS = ['diagram', 'table'] as const;
 
 /**
- * Màn "Cấu hình workflow": sơ đồ kéo thả (Workflow.cshtml cũ) + bảng bước chuyển (Config.cshtml cũ).
+ * Màn "Cấu hình workflow": sơ đồ kéo thả + bảng bước chuyển.
  * Dữ liệu dùng chung: trạng thái lấy từ sơ đồ, danh mục role/update mode từ lookups, field từ cấu hình workflow.
  */
 export function WorkflowDesignerPage() {
@@ -42,7 +42,7 @@ export function WorkflowDesignerPage() {
   const [selection, setSelection] = useState<CanvasSelection>(null);
 
   const statuses = useMemo(() => diagram.data?.statuses.map((s) => ({ id: s.id, name: s.name })) ?? [], [diagram.data]);
-  // điều kiện FIELD chọn trong các field đang dùng của workflow; tên hiển thị = ghi chú, không có thì mã field (như bản cũ)
+  // điều kiện FIELD chọn trong các field đang dùng của workflow; tên hiển thị = ghi chú, không có thì mã field
   const workflowFields = useMemo(
     () => workflow.data?.fields.filter((f) => f.isChosen).map((f) => ({ code: f.fieldCode, name: f.note || f.fieldCode })) ?? [],
     [workflow.data],

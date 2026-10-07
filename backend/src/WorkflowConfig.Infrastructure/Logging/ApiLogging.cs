@@ -12,7 +12,7 @@ using Microsoft.Extensions.Options;
 
 namespace WorkflowConfig.Infrastructure.Logging;
 
-/// <summary>Cấu hình log API request/response (chuẩn BE §9.2, dựa trên LoggingRequestResponseMiddleware của VAS_CRM_BE).</summary>
+/// <summary>Cấu hình log API request/response (chuẩn BE §9.2).</summary>
 public sealed class ApiLoggingOptions
 {
     public const string SectionName = "ApiLogging";

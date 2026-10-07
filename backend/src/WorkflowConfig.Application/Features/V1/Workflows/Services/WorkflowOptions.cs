@@ -6,7 +6,7 @@ public sealed class WorkflowOptions
     public const string SectionName = "Workflow";
 
     /// <summary>
-    /// Schema được phép chọn bảng/cột làm nguồn dữ liệu Zalo (hệ thống cũ: 'Task', 'Customer').
+    /// Schema được phép chọn bảng/cột làm nguồn dữ liệu Zalo.
     /// Chỉ liệt kê BASE TABLE trong các schema này — không lộ toàn bộ DB.
     /// </summary>
     public string[] NotificationTableSchemas { get; set; } = ["dbo"];

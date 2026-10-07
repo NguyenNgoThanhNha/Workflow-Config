@@ -270,7 +270,7 @@ function NotificationCard({ index, modes, onRemove }: { index: number; modes: Co
   );
 }
 
-/** Tab "Gửi thông báo" của bước chuyển (_NotificationConfig + EmailCc/Bcc/Attachment cũ). */
+/** Tab "Gửi thông báo" của bước chuyển. */
 export function NotificationsEditor({ modes }: { modes: CodeName[] }) {
   const { control } = useFormContext<TransitionFormValues>();
   const { fields, append, remove } = useFieldArray({ control, name: 'notifications', keyName: 'key' });

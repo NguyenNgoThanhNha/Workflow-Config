@@ -4,7 +4,7 @@ using WorkflowConfig.Domain.Entities.Workflows;
 namespace WorkflowConfig.Application.Features.V1.Workflows.Queries.GetStatusForm;
 
 /// <summary>
-/// Form trạng thái trên sơ đồ (FindTaskStatus cũ). StatusId = null → form thêm mới.
+/// Form trạng thái trên sơ đồ. StatusId = null → form thêm mới.
 /// Bảng "Cấu hình chỉnh sửa task" liệt kê mọi field đang dùng của workflow kèm cờ Disable/Required theo vai trò.
 /// </summary>
 public sealed record GetStatusFormQuery(Guid WorkflowId, Guid? StatusId) : IRequest<WorkflowStatusFormDto>;

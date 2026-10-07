@@ -34,7 +34,7 @@ public sealed class GetWorkflowLookupsQueryHandler(IUnitOfWork<WorkflowConfigDbC
     }
 }
 
-/// <summary>Bảng có thể chọn làm nguồn dữ liệu Zalo (GetsTable cũ).</summary>
+/// <summary>Bảng có thể chọn làm nguồn dữ liệu Zalo.</summary>
 public sealed record GetCrmTablesQuery : IRequest<IReadOnlyList<string>>;
 
 public sealed class GetCrmTablesQueryHandler(ICrmMetadataReader reader) : IRequestHandler<GetCrmTablesQuery, IReadOnlyList<string>>
@@ -42,7 +42,7 @@ public sealed class GetCrmTablesQueryHandler(ICrmMetadataReader reader) : IReque
     public Task<IReadOnlyList<string>> Handle(GetCrmTablesQuery request, CancellationToken ct) => reader.GetTablesAsync(ct);
 }
 
-/// <summary>Cột nvarchar của một bảng (GetFiledOfTable cũ).</summary>
+/// <summary>Cột nvarchar của một bảng.</summary>
 public sealed record GetCrmColumnsQuery(string Table) : IRequest<IReadOnlyList<string>>;
 
 public sealed class GetCrmColumnsQueryHandler(ICrmMetadataReader reader) : IRequestHandler<GetCrmColumnsQuery, IReadOnlyList<string>>

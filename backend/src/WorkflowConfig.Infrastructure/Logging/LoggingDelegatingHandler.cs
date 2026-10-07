@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 namespace WorkflowConfig.Infrastructure.Logging;
 
 /// <summary>
-/// Log mọi HttpClient gọi ra ngoài (theo LoggingDelegatingHandler của VAS_CRM_BE).
+/// Log mọi HttpClient gọi ra ngoài.
 /// Gắn: services.AddHttpClient&lt;X&gt;().AddHttpMessageHandler&lt;LoggingDelegatingHandler&gt;().
 /// </summary>
 public sealed class LoggingDelegatingHandler(ILogger<LoggingDelegatingHandler> logger) : DelegatingHandler

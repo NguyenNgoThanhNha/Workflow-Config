@@ -24,7 +24,7 @@ using WorkflowConfig.Domain.Enums;
 
 namespace WorkflowConfig.Api.Controllers.V1;
 
-/// <summary>Cấu hình quy trình — port WorkFlowController (Areas/Work) của VAS_CRM MVC sang REST.</summary>
+/// <summary>Cấu hình quy trình.</summary>
 [Route("api/v1/workflows")]
 public sealed class WorkflowsController(ISender mediator) : ApiControllerBase(mediator)
 {

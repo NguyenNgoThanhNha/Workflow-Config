@@ -83,7 +83,7 @@ function buildEdges(diagram: WorkflowDiagram): Edge[] {
 }
 
 /**
- * Sơ đồ workflow (thay jsPlumb của màn Workflow.cshtml cũ):
+ * Sơ đồ workflow:
  * kéo thả ô để lưu vị trí, kéo từ điểm nối sang ô khác để tạo bước chuyển, kéo đầu mũi tên để đổi trạng thái/điểm nối,
  * nhấp đúp ô / mũi tên để sửa.
  */

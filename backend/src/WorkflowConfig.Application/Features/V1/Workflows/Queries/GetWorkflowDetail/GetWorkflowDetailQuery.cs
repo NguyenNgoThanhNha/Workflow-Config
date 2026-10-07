@@ -52,7 +52,7 @@ public sealed class GetWorkflowFieldTemplateQueryHandler(IUnitOfWork<WorkflowCon
         FieldConfigReader.ReadAsync(unitOfWork, null, ct);
 }
 
-/// <summary>Field đang dùng (theo thứ tự cấu hình) rồi tới các field còn lại của danh mục — như CreateViewBag cũ.</summary>
+/// <summary>Field đang dùng (theo thứ tự cấu hình) rồi tới các field còn lại của danh mục.</summary>
 public static class FieldConfigReader
 {
     public static async Task<IReadOnlyList<WorkflowFieldConfigDto>> ReadAsync(

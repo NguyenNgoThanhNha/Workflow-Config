@@ -21,7 +21,7 @@ public sealed record NotificationRecipientInput(Guid? Id, string? Mode, string? 
 public sealed record NotificationAttachmentInput(Guid? Id, string Attachment);
 
 /// <summary>
-/// Một cấu hình thông báo. Zalo: UseDefaultZaloData = true → nguồn TaskModel.Text7 như bản cũ ("Mặc định"),
+/// Một cấu hình thông báo. Zalo: UseDefaultZaloData = true → nguồn mặc định TaskModel.Text7,
 /// false → chọn bảng/cột (CrmTable/CrmField). Cc/Bcc/Attachments chỉ dùng cho EMAIL.
 /// </summary>
 public sealed record TransitionNotificationInput(
@@ -45,7 +45,7 @@ public sealed record TransitionNotificationInput(
 
 /// <summary>
 /// Tạo (TransitionId = null) hoặc sửa bước chuyển cùng điều kiện tự động và cấu hình thông báo
-/// (SaveTest + Save cũ). Danh sách con đồng bộ theo Id: dòng mất khỏi form thì bị xóa.
+/// Danh sách con đồng bộ theo Id: dòng mất khỏi form thì bị xóa.
 /// </summary>
 public sealed record SaveTransitionCommand(
     string Name,
@@ -260,7 +260,7 @@ public sealed class SaveTransitionCommandHandler(IUnitOfWork<WorkflowConfigDbCon
             c.ComparisonType = i.ComparisonType;
             c.ValueType = NullIfEmpty(i.ValueType) ?? ConstWorkflow.Condition.ValueInput;
             c.Value = i.Value?.Trim();
-            // Như form cũ: SQLText tự ghép từ Connector + Field + Comparison + Value, người dùng có thể sửa tay.
+            // SQLText tự ghép từ Connector + Field + Comparison + Value, người dùng có thể sửa tay.
             c.SqlText = NullIfEmpty(i.SqlText) ?? $"{c.Connector}{c.Field}{c.ComparisonType}{c.Value}";
             return c;
         }

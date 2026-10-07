@@ -5,7 +5,7 @@ using WorkflowConfig.Domain.Entities.Workflows;
 
 namespace WorkflowConfig.Application.Features.V1.Workflows.Commands.UploadWorkflowImage;
 
-/// <summary>Đổi ảnh đại diện workflow (FileUpload trên form Create/Edit cũ).</summary>
+/// <summary>Đổi ảnh đại diện workflow.</summary>
 public sealed record UploadWorkflowImageCommand(Guid Id, Stream Content, string FileName, long Length) : IRequest;
 
 public sealed class UploadWorkflowImageCommandValidator : AbstractValidator<UploadWorkflowImageCommand>

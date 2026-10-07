@@ -2,7 +2,7 @@ using WorkflowConfig.Domain.Entities.Workflows;
 
 namespace WorkflowConfig.Application.Features.V1.Workflows.Commands.DeleteStatus;
 
-/// <summary>Xóa trạng thái trên sơ đồ (DeleteTaskStatus cũ) — bị chặn nếu còn bước chuyển đi ra hoặc đi vào.</summary>
+/// <summary>Xóa trạng thái trên sơ đồ — bị chặn nếu còn bước chuyển đi ra hoặc đi vào.</summary>
 public sealed record DeleteWorkflowStatusCommand(Guid WorkflowId, Guid StatusId) : IRequest;
 
 public sealed class DeleteWorkflowStatusCommandHandler(IUnitOfWork<WorkflowConfigDbContext> unitOfWork)

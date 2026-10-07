@@ -2,7 +2,7 @@ using WorkflowConfig.Domain.Entities.Workflows;
 
 namespace WorkflowConfig.Application.Features.V1.Workflows.Commands.DeleteTransition;
 
-/// <summary>Xóa bước chuyển (DeleteTransition / DeleteStatusTransition cũ) cùng điều kiện tự động và cấu hình thông báo.</summary>
+/// <summary>Xóa bước chuyển cùng điều kiện tự động và cấu hình thông báo.</summary>
 public sealed record DeleteTransitionCommand(Guid WorkflowId, Guid TransitionId) : IRequest;
 
 public sealed class DeleteTransitionCommandHandler(IUnitOfWork<WorkflowConfigDbContext> unitOfWork)

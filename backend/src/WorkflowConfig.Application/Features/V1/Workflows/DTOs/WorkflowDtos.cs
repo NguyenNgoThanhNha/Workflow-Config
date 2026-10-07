@@ -81,7 +81,7 @@ public sealed record DiagramStatusNodeDto(
     string BackgroundColor,
     string TextColor);
 
-/// <summary>Nút hình thoi: Id = "{FromStatusId}+{BranchKey}" (cùng quy ước với hệ thống cũ).</summary>
+/// <summary>Nút hình thoi: Id = "{FromStatusId}+{BranchKey}".</summary>
 public sealed record DiagramBranchNodeDto(string Id, Guid FromStatusId, string BranchKey, string Name, int X, int Y);
 
 /// <summary>
@@ -107,7 +107,7 @@ public sealed record WorkflowDiagramDto(
     IReadOnlyList<DiagramBranchNodeDto> Branches,
     IReadOnlyList<DiagramEdgeDto> Edges);
 
-/// <summary>Một dòng của bảng cấu hình bước chuyển (màn Config cũ): trạng thái × bước chuyển đi ra.</summary>
+/// <summary>Một dòng của bảng cấu hình bước chuyển: trạng thái × bước chuyển đi ra.</summary>
 public sealed record TransitionTableRowDto(
     Guid StatusId,
     string StatusName,

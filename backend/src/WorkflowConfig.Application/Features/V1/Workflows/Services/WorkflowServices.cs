@@ -5,7 +5,7 @@ namespace WorkflowConfig.Application.Features.V1.Workflows.Services;
 
 /// <summary>
 /// Đọc metadata bảng/cột của DB (nguồn dữ liệu gửi Zalo). Dùng chung cho query danh mục và SaveTransition (xác định schema).
-/// Hệ thống cũ ghép tên bảng vào chuỗi SQL; ở đây luôn dùng SqlParameter (RULES 3.8).
+/// Luôn dùng SqlParameter (RULES 3.8).
 /// </summary>
 public interface ICrmMetadataReader
 {

@@ -10,7 +10,7 @@ import { useDeleteTransition, useTransitionTable } from '../hooks/use-workflows'
 import type { TransitionTableRow } from '../types';
 
 /**
- * Bảng cấu hình bước chuyển (màn Config cũ): mỗi trạng thái × các bước chuyển đi ra, thêm / sửa / xóa ngay trên bảng.
+ * Bảng cấu hình bước chuyển: mỗi trạng thái × các bước chuyển đi ra, thêm / sửa / xóa ngay trên bảng.
  * Cách cấu hình thay cho sơ đồ, tiện khi workflow có nhiều trạng thái.
  */
 export function TransitionTable({

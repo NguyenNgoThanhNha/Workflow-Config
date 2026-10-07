@@ -7,8 +7,7 @@ using WorkflowConfig.Persistence;
 namespace WorkflowConfig.Infrastructure.Seed;
 
 /// <summary>
-/// Danh mục của module cấu hình quy trình. Ở hệ thống cũ các bảng này được nhập tay trên DB (Catalog "process",
-/// StatusTransition_UpdateModeModel, WorkFlowFieldModel); ở đây đồng bộ từ code mỗi lần khởi động — chỉ thêm mã còn thiếu,
+/// Danh mục của module cấu hình quy trình, đồng bộ từ code mỗi lần khởi động — chỉ thêm mã còn thiếu,
 /// không ghi đè tên/màu admin đã sửa.
 /// </summary>
 internal static class WorkflowSeed
@@ -32,7 +31,7 @@ internal static class WorkflowSeed
         (ConstWorkflow.UpdateMode.Employee, "Chọn nhân viên")
     ];
 
-    /// <summary>Các trường của form nhiệm vụ (lấy theo thứ tự xuất hiện trên _CreateTaskInfo.cshtml cũ).</summary>
+    /// <summary>Các trường của form nhiệm vụ (theo thứ tự trên form).</summary>
     private static readonly (string Code, string Name)[] Fields =
     [
         ("WorkFlowId", "Loại nhiệm vụ"), ("TaskStatusId", "Trạng thái"), ("Summary", "Tiêu đề"),

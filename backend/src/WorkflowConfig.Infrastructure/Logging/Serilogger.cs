@@ -3,7 +3,7 @@ using Serilog;
 
 namespace WorkflowConfig.Infrastructure.Logging;
 
-/// <summary>Cấu hình Serilog dùng chung (theo Common.Logging của VAS_CRM_BE). Sink/level bổ sung đọc từ appsettings "Serilog".</summary>
+/// <summary>Cấu hình Serilog dùng chung. Sink/level bổ sung đọc từ appsettings "Serilog".</summary>
 public static class Serilogger
 {
     public static Action<HostBuilderContext, LoggerConfiguration> Configure =>

@@ -90,7 +90,7 @@ function fromDetail(t: TransitionDetail, draft?: NewTransitionDraft): Transition
       configValue: n.configValue,
       templateId: n.templateId,
       znsTemplateId: n.znsTemplateId,
-      // như form cũ: TaskModel/Text7 = "Mặc định"
+      // TaskModel/Text7 = nguồn "Mặc định"
       useDefaultZaloData: !n.crmTable || (n.crmTable === ZALO_DEFAULT.table && n.crmField === ZALO_DEFAULT.field),
       crmTable: n.crmTable,
       crmField: n.crmField,
@@ -379,7 +379,7 @@ function TabLabel({ icon, children, count }: { icon: ReactNode; children: ReactN
 }
 
 /**
- * Thêm / sửa bước chuyển (_FormStatusTransition + SaveTest cũ). Ba tab:
+ * Thêm / sửa bước chuyển. Ba tab:
  * Thông tin chung (tên, hướng chuyển, ký số) · Phân quyền (ai được bấm, cập nhật người phụ trách, nhập liệu, tự động) · Thông báo.
  */
 export function TransitionDialog({
@@ -432,7 +432,7 @@ export function TransitionDialog({
     name: ['signatureType', 'isAutomatic', 'fromStatusId', 'toStatusId', 'isDropdownShown', 'notifications', 'conditions'],
   });
   const isEdit = !!transitionId;
-  // sửa bước chuyển: không đổi trạng thái nguồn/đích trên form (như bản cũ) — trừ khi vừa kéo đầu mũi tên sang ô khác
+  // sửa bước chuyển: không đổi trạng thái nguồn/đích trên form — trừ khi vừa kéo đầu mũi tên sang ô khác
   const lockStatuses = isEdit && !shown?.draft;
   const loading = loadedFor !== shown;
   const statusName = (id: string) => statuses.find((s) => s.id === id)?.name;

@@ -1,30 +1,30 @@
 # Workflow-Config — Cấu hình quy trình
 
-Port toàn bộ chức năng **WorkFlow** của MVC cũ (`VAS_CRM_BE/src/WorkflowWeb/SourceCode/ISD.Admin/Areas/Work`, `WorkFlowController` + views) sang:
+Ứng dụng cấu hình quy trình xử lý nhiệm vụ: trạng thái, bước chuyển, phân quyền, điều kiện tự động và thông báo.
 
-- **backend/** — dựng từ `Backend_Api_Template` (đổi tên `ServerApiTemplate` → `WorkflowConfig`), theo [backend/RULES.md](backend/RULES.md): CQRS `Features/V1/Workflows`, `IUnitOfWork<>`, phân quyền 6 bảng (`WORKFLOW` C/R/U/D), log API, ProblemDetails.
-- **frontend/** — React 19 + shadcn/ui, cấu trúc feature-based (`src/features/workflows/{api,hooks,components,pages,schemas.ts,types.ts,index.ts}`); sơ đồ dùng React Flow thay jsPlumb.
+- **backend/** — ASP.NET Core dựng từ `Backend_Api_Template`, theo [backend/RULES.md](backend/RULES.md): CQRS `Features/V1/Workflows`, `IUnitOfWork<>`, phân quyền 6 bảng (activity `WORKFLOW` C/R/U/D), log API, ProblemDetails.
+- **frontend/** — React 19 + shadcn/ui, cấu trúc feature-based (`src/features/workflows/{api,hooks,components,pages,schemas.ts,types.ts,index.ts}`); sơ đồ dùng React Flow.
 
-## Đối chiếu chức năng MVC → mới
+## Chức năng
 
-| MVC cũ | Mới |
+| Màn hình | API |
 |---|---|
-| `Index` + `_Search` (tìm mã/tên, lọc Actived) | `/workflows` — tìm không dấu, lọc, phân trang · `GET /api/v1/workflows` |
-| `Copy` (modal, kiểm tra trùng mã/tên) | Nút Copy trên danh sách · `POST /workflows/{id}/copy` — nhân bản trạng thái, bước chuyển, điều kiện, thông báo (+Cc/Bcc/đính kèm), cấu hình field, quyền field theo trạng thái; **một** SaveChanges |
-| `Create` / `Edit` (thông tin, ảnh, `_FormTaskStatus`, `_FormWorkFlowField`) | `/workflows/new`, `/workflows/{id}` · `POST/PUT /workflows`, `PUT /workflows/{id}/image` |
-| `Workflow` (sơ đồ jsPlumb), `UpdatePositionTaskTransition`, `GetStatusTransition` | `/workflows/{id}/designer` tab **Sơ đồ** · `GET /diagram`, `PUT /statuses/{id}/position`, `PUT /branches/position` |
-| `FindTaskStatus` / `UpdateTaskStatus` / `DeleteTaskStatus` (+ cấu hình Disable/Required field) | Nhấp đúp ô trạng thái · `GET /statuses/form`, `POST/PUT/DELETE /statuses` |
-| `_WFCreateTransition` / `SaveTest` / `Save` / `DeleteStatusTransition` (+ ký số, auto condition, notification Zalo/Push/Email) | Kéo nối 2 ô hoặc nhấp đúp mũi tên · `GET/POST/PUT/DELETE /transitions` |
-| `Config` (bảng trạng thái × bước chuyển) | Tab **Bảng bước chuyển** · `GET /transition-table` |
-| `GetsTable` / `GetFiledOfTable` (ghép chuỗi SQL) | `GET /crm-tables`, `/crm-tables/{table}/columns` — dùng `SqlParameter`, chỉ schema trong `Workflow:NotificationTableSchemas` |
-| Catalog `process`, `StatusTransition_UpdateModeModel`, `WorkFlowFieldModel` (nhập tay trên DB) | `Wf_Process`, `Wf_UpdateMode`, `Wf_Field` — seed từ code (`WorkflowSeed`) |
+| Danh sách workflow: tìm mã/tên (không dấu), lọc trạng thái sử dụng, phân trang | `GET /api/v1/workflows` |
+| Copy workflow — nhân bản trạng thái, bước chuyển, điều kiện, thông báo, cấu hình field và quyền field theo trạng thái | `POST /workflows/{id}/copy` |
+| Tạo / sửa workflow: thông tin chung, ảnh đại diện, trạng thái, cấu hình thuộc tính | `POST/PUT /workflows`, `PUT /workflows/{id}/image` |
+| Sơ đồ: kéo thả trạng thái, kéo nối để tạo bước chuyển, nút rẽ nhánh | `GET /diagram`, `PUT /statuses/{id}/position`, `PUT /branches/position` |
+| Trạng thái: màu, push notification, quyền sửa field theo vai trò | `GET /statuses/form`, `POST/PUT/DELETE /statuses` |
+| Bước chuyển: ký số, phân quyền, cập nhật người phụ trách, điều kiện tự động, thông báo Push/Zalo/Email | `GET/POST/PUT/DELETE /transitions` |
+| Bảng bước chuyển | `GET /transition-table` |
+| Nguồn dữ liệu Zalo (bảng / cột) | `GET /crm-tables`, `/crm-tables/{table}/columns` — chỉ schema trong `Workflow:NotificationTableSchemas` |
 
-Khác biệt có chủ ý (sửa lỗi / làm chặt của bản cũ):
-- Bỏ trạng thái đang có bước chuyển khỏi form → **409** rõ ràng (bản cũ lỗi FK). Sửa workflow có `rowVersion` → 2 người cùng sửa thì người sau nhận 409.
-- Lưu bước chuyển: điều kiện / thông báo đồng bộ theo Id (bản cũ khi sửa chỉ xử lý Zalo & Push, bỏ sót Email).
-- Không ký → tự bỏ Người ký; cách cập nhật assignee/reporter chỉ giữ giá trị khớp chế độ (Roles → nhóm, Department/Employee → mã).
-- `StatusTransition_Reporter_Department_Mapping`, `Kanban_TaskStatus_Mapping`: form cũ không còn gửi dữ liệu / không có Kanban ở đây nên không port; giá trị phòng ban lưu ở `ReporterValue`.
-- Cấu hình ngôn ngữ field (`WorkFlowConfigLanguageModel`) gộp vào cột `NoteEn` của `Wf_FieldConfig`.
+Danh mục nhóm xử lý (`Wf_Process`), cách cập nhật người phụ trách (`Wf_UpdateMode`) và danh mục field (`Wf_Field`) được seed từ code (`WorkflowSeed`).
+
+Quy tắc chính:
+- Không xóa được trạng thái còn bước chuyển đi ra / đi vào (409).
+- Sửa workflow kèm `rowVersion`: hai người cùng sửa thì người lưu sau nhận 409.
+- Điều kiện / thông báo của bước chuyển đồng bộ theo Id (dòng bị bỏ khỏi form sẽ bị xóa).
+- Không ký → bỏ Người ký; cách cập nhật người phụ trách chỉ giữ giá trị khớp chế độ (Roles → nhóm, Department/Employee → mã).
 
 ## Chạy
 

@@ -23,7 +23,7 @@ import type { WorkflowListItem } from '../types';
 const DEFAULT_PAGE_SIZE = 20;
 const ACTIVE_FILTERS = ['all', 'true', 'false'] as const;
 
-/** Màn danh sách workflow (WorkFlow/Index cũ): tìm mã/tên, lọc trạng thái sử dụng, sửa, copy, mở sơ đồ. */
+/** Màn danh sách workflow: tìm mã/tên, lọc trạng thái sử dụng, sửa, copy, mở sơ đồ. */
 export function WorkflowListPage() {
   const navigate = useNavigate();
   const user = useAuthStore((s) => s.user);
