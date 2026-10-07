@@ -48,12 +48,15 @@ public sealed class DataSeeder(
             {
                 activity.Name = def.Name;
                 activity.Description = def.Description;
+                activity.Actions = def.Actions;
+                activity.IsSystem = true;
             }
             else
             {
                 activity = new SysActivity
                 {
-                    Code = def.Code, Name = def.Name, Description = def.Description, ApplicationName = ConstActivity.ApplicationName
+                    Code = def.Code, Name = def.Name, Description = def.Description, ApplicationName = ConstActivity.ApplicationName,
+                    Actions = def.Actions, IsSystem = true
                 };
                 set.Add(activity);
                 existing[def.Code] = activity;

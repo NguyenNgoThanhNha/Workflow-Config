@@ -61,5 +61,20 @@ public sealed class ActivityPermissionInputsValidator : AbstractValidator<IReadO
             })
             .OverridePropertyName("activities")
             .WithMessage("Có activity không tồn tại.");
+
+        // Không cho bật quyền mà chức năng không dùng (vd "Thêm" cho chức năng chỉ có "Xem").
+        RuleFor(x => x)
+            .MustAsync(async (inputs, ct) =>
+            {
+                var ids = inputs.Select(i => i.ActivityId).Distinct().ToList();
+                if (ids.Count == 0) return true;
+                var actions = await unitOfWork.Repository<SysActivity>().AsNoTracking()
+                    .Where(a => ids.Contains(a.Id)).ToDictionaryAsync(a => a.Id, a => a.Actions, ct);
+                return inputs.All(i => !actions.TryGetValue(i.ActivityId, out var allowed) ||
+                    ((!i.C || allowed.Contains('C')) && (!i.R || allowed.Contains('R')) &&
+                     (!i.U || allowed.Contains('U')) && (!i.D || allowed.Contains('D'))));
+            })
+            .OverridePropertyName("activities")
+            .WithMessage("Có quyền không áp dụng cho chức năng đã chọn.");
     }
 }

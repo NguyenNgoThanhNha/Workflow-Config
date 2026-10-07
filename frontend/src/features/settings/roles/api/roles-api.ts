@@ -1,5 +1,5 @@
 import { api } from '@/lib/api-client';
-import type { ActivityDto, RoleDetailDto, RoleDto, RoleRequest } from '@/types';
+import type { ActivityDto, ActivityRequest, RoleDetailDto, RoleDto, RoleRequest } from '@/types';
 
 export const rolesApi = {
   list: () => api.get<RoleDto[]>('/roles').then((r) => r.data),
@@ -11,4 +11,7 @@ export const rolesApi = {
 
 export const activitiesApi = {
   list: () => api.get<ActivityDto[]>('/activities').then((r) => r.data),
+  create: (body: ActivityRequest) => api.post<ActivityDto>('/activities', body).then((r) => r.data),
+  update: (id: string, body: ActivityRequest) => api.put<ActivityDto>(`/activities/${id}`, body).then((r) => r.data),
+  remove: (id: string) => api.delete<void>(`/activities/${id}`).then(() => undefined),
 };

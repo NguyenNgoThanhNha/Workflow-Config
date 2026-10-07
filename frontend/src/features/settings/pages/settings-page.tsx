@@ -5,12 +5,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { PageHeader } from '@/components/common/page-header';
 import { canAny, type PermissionRequirement } from '@/lib/permissions';
 import { useAuthStore } from '@/stores/auth-store';
+import { ActivitiesTab } from '../activities/components/activities-tab';
 import { RolesTab } from '../roles/components/roles-tab';
 import { UsersTab } from '../users/components/users-tab';
 
 const TABS: { key: string; label: string; anyOf: readonly PermissionRequirement[]; render: () => ReactNode }[] = [
   { key: 'users', label: 'Người dùng', anyOf: [['USER', 'R']], render: () => <UsersTab /> },
   { key: 'roles', label: 'Vai trò', anyOf: [['ROLE', 'R']], render: () => <RolesTab /> },
+  { key: 'activities', label: 'Chức năng', anyOf: [['ROLE', 'R']], render: () => <ActivitiesTab /> },
 ];
 
 export function SettingsPage() {
@@ -21,9 +23,9 @@ export function SettingsPage() {
 
   return (
     <div className="space-y-4">
-      <PageHeader title="Cài đặt" description="Người dùng, vai trò và phân quyền" />
+      <PageHeader title="Cài đặt" description="Người dùng, vai trò, chức năng và phân quyền" />
       <Tabs value={active} onValueChange={(key) => setParams({ tab: key }, { replace: true })}>
-        <TabsList className="max-w-full overflow-x-auto">
+        <TabsList>
           {visible.map((t) => (
             <TabsTrigger key={t.key} value={t.key}>
               {t.label}

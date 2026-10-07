@@ -15,6 +15,7 @@ public class SysActivityConfiguration : IEntityTypeConfiguration<SysActivity>
         builder.Property(x => x.Name).HasMaxLength(255).IsRequired();
         builder.Property(x => x.Description).HasMaxLength(500);
         builder.Property(x => x.ApplicationName).HasMaxLength(50);
+        builder.Property(x => x.Actions).HasColumnType("varchar(4)").HasDefaultValue(ConstActivity.AllActions).IsRequired();
         builder.HasIndex(x => x.Code).IsUnique().HasFilter("[IsDeleted] = 0");
     }
 }

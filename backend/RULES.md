@@ -66,7 +66,7 @@ Mức độ: **[BẮT BUỘC]** = vi phạm thì không merge · **[NÊN]** = l�
 | # | Quy tắc |
 |---|---|
 | 5.1 | **[BẮT BUỘC]** Mọi endpoint (trừ `auth/*` công khai) phải có một trong hai: `[HasPermission(ConstActivity.X, ActivityType.Y)]`, hoặc comment giải thích vì sao chỉ cần đăng nhập (ví dụ phân quyền theo dữ liệu nằm trong handler). |
-| 5.2 | **[BẮT BUỘC]** Chức năng mới = thêm hằng số vào `ConstActivity` + một dòng trong `ConstActivity.All`. Seeder tự tạo `Sys_Activity`. **Không** insert tay vào DB. |
+| 5.2 | **[BẮT BUỘC]** Chức năng **có code kiểm tra quyền** = thêm hằng số vào `ConstActivity` + một dòng trong `ConstActivity.All` (kèm `Actions` nếu không dùng đủ CRUD). Seeder tự tạo `Sys_Activity` (`IsSystem = true`, khóa trên giao diện). **Không** insert tay vào DB. Admin được tự thêm chức năng ở Cài đặt → Chức năng (`IsSystem = false`) để chuẩn bị phân quyền trước; khi code tính năng dùng mã đó thì chuyển nó vào `ConstActivity.All` (seeder sẽ nhận dòng có sẵn theo mã). |
 | 5.3 | **[BẮT BUỘC]** Không kiểm tra quyền theo **tên role** (`if (role == "Admin")`). Luôn kiểm tra theo quyền: `[HasPermission]` ở controller, `await currentUser.HasPermissionAsync(code, type, ct)` trong handler. |
 | 5.4 | **[BẮT BUỘC]** Phân quyền theo dữ liệu (chủ bản ghi hoặc có quyền R) kiểm tra trong handler **trước** khi đọc/ghi. Không đủ quyền thì ném `ForbiddenException`. |
 | 5.5 | **[BẮT BUỘC]** Đổi quyền thì phải vô hiệu cache: đổi role hoặc quyền riêng của user → `permissionService.Invalidate(userId)`; sửa quyền của role → `permissionService.InvalidateAll()`. |

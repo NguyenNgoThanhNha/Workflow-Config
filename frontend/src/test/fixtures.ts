@@ -45,9 +45,9 @@ export const viewerUser: CurrentUserDto = {
 };
 
 export const activities: ActivityDto[] = [
-  { id: 'act-workflow', code: 'WORKFLOW', name: 'Cấu hình quy trình', description: null },
-  { id: 'act-user', code: 'USER', name: 'Người dùng', description: null },
-  { id: 'act-role', code: 'ROLE', name: 'Vai trò', description: null },
+  { id: 'act-workflow', code: 'WORKFLOW', name: 'Cấu hình quy trình', description: null, actions: 'CRUD', isSystem: true },
+  { id: 'act-user', code: 'USER', name: 'Người dùng', description: null, actions: 'RU', isSystem: true },
+  { id: 'act-role', code: 'ROLE', name: 'Vai trò', description: null, actions: 'CRUD', isSystem: true },
 ];
 
 export function authResponse(user: CurrentUserDto = editorUser, suffix = '1'): AuthResponse {

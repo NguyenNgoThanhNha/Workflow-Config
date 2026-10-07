@@ -11,8 +11,8 @@ public sealed class GetActivitiesQueryHandler(IUnitOfWork<WorkflowConfigDbContex
 {
     public async Task<IReadOnlyList<ActivityDto>> Handle(GetActivitiesQuery request, CancellationToken ct) =>
         await unitOfWork.Repository<SysActivity>().AsNoTracking()
-            .OrderBy(a => a.Code)
-            .Select(a => new ActivityDto(a.Id, a.Code, a.Name, a.Description))
+            .OrderByDescending(a => a.IsSystem).ThenBy(a => a.Code)
+            .Select(a => new ActivityDto(a.Id, a.Code, a.Name, a.Description, a.Actions, a.IsSystem))
             .ToListAsync(ct);
 }
 

@@ -2,7 +2,6 @@ import type { ReactNode } from 'react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import {
   ACTIVITY_ACTIONS,
   type ActivityAction,
@@ -14,20 +13,12 @@ import {
 const FLAG: Record<ActivityAction, keyof CrudFlags> = { C: 'c', R: 'r', U: 'u', D: 'd' };
 const ACTION_LABEL: Record<ActivityAction, string> = { C: 'Thêm', R: 'Xem', U: 'Sửa', D: 'Xóa' };
 
-/**
- * Flags that are meaningful for the known activity codes (API contract table).
- * Unknown codes: all flags enabled.
- */
-const APPLICABLE: Record<string, readonly ActivityAction[]> = {
-  WORKFLOW: ['C', 'R', 'U', 'D'],
-  KANBAN: ['C', 'R', 'U', 'D'],
-  USER: ['R', 'U'],
-  ROLE: ['C', 'R', 'U', 'D'],
-  API_LOG: ['R'],
-};
+/** Quyền có áp dụng cho chức năng không — lấy từ Sys_Activity.Actions (thiếu → đủ 4 quyền). */
+export const isApplicable = (activity: Pick<ActivityDto, 'actions'>, action: ActivityAction) =>
+  (activity.actions ?? 'CRUD').includes(action);
 
-export const isApplicable = (code: string, action: ActivityAction) =>
-  (APPLICABLE[code] ?? ACTIVITY_ACTIONS).includes(action);
+/** Viền ô tick đậm hơn mặc định để nhìn rõ trên nền trắng. */
+const CHECKBOX_CLASS = 'size-[18px] border-muted-foreground/60';
 
 const emptyFlags: CrudFlags = { c: false, r: false, u: false, d: false };
 
@@ -64,14 +55,14 @@ export interface PermissionMatrixProps {
   extraColumn?: { title: ReactNode; render: (activity: ActivityDto) => ReactNode };
 }
 
-/** Reusable activity × C/R/U/D checkbox matrix. */
+/** Bảng tick quyền: chức năng × Thêm / Xem / Sửa / Xóa (C/R/U/D). */
 export function PermissionMatrix({ activities, value, onChange, readOnly, loading, extraColumn }: PermissionMatrixProps) {
   const flagsOf = (activityId: string): CrudFlags => value.find((p) => p.activityId === activityId) ?? emptyFlags;
 
   const setRow = (activity: ActivityDto, checked: boolean) => {
     let next = value;
     for (const action of ACTIVITY_ACTIONS) {
-      if (isApplicable(activity.code, action)) next = togglePermission(next, activity.id, action, checked);
+      if (isApplicable(activity, action)) next = togglePermission(next, activity.id, action, checked);
     }
     onChange?.(next);
   };
@@ -85,13 +76,9 @@ export function PermissionMatrix({ activities, value, onChange, readOnly, loadin
           <TableRow>
             <TableHead>Chức năng</TableHead>
             {ACTIVITY_ACTIONS.map((action) => (
-              <TableHead key={action} className="w-14 text-center">
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <span className="cursor-help">{action}</span>
-                  </TooltipTrigger>
-                  <TooltipContent>{ACTION_LABEL[action]}</TooltipContent>
-                </Tooltip>
+              <TableHead key={action} className="w-16 text-center">
+                <span className="block leading-tight">{ACTION_LABEL[action]}</span>
+                <span className="block text-[10px] font-normal text-muted-foreground">{action}</span>
               </TableHead>
             ))}
             {!readOnly && <TableHead className="w-16 text-center">Tất cả</TableHead>}
@@ -116,7 +103,7 @@ export function PermissionMatrix({ activities, value, onChange, readOnly, loadin
           ) : (
             activities.map((a) => {
               const flags = flagsOf(a.id);
-              const applicable = ACTIVITY_ACTIONS.filter((x) => isApplicable(a.code, x));
+              const applicable = ACTIVITY_ACTIONS.filter((x) => isApplicable(a, x));
               const on = applicable.filter((x) => flags[FLAG[x]]).length;
               return (
                 <TableRow key={a.id}>
@@ -129,12 +116,21 @@ export function PermissionMatrix({ activities, value, onChange, readOnly, loadin
                   </TableCell>
                   {ACTIVITY_ACTIONS.map((action) => {
                     const checked = flags[FLAG[action]];
+                    // quyền không áp dụng cho chức năng này → hiện "—" thay vì ô tick bị khóa (dễ nhầm là không bấm được)
+                    if (!isApplicable(a, action) && !checked) {
+                      return (
+                        <TableCell key={action} className="text-center text-muted-foreground/60" title="Không áp dụng">
+                          —
+                        </TableCell>
+                      );
+                    }
                     return (
                       <TableCell key={action} className="text-center">
                         <Checkbox
                           aria-label={`${a.code} ${action}`}
+                          className={CHECKBOX_CLASS}
                           checked={checked}
-                          disabled={readOnly || (!isApplicable(a.code, action) && !checked)}
+                          disabled={readOnly}
                           onCheckedChange={(v) => onChange?.(togglePermission(value, a.id, action, v === true))}
                         />
                       </TableCell>
@@ -144,6 +140,7 @@ export function PermissionMatrix({ activities, value, onChange, readOnly, loadin
                     <TableCell className="text-center">
                       <Checkbox
                         aria-label={`${a.code} tất cả`}
+                        className={CHECKBOX_CLASS}
                         checked={on > 0 && on === applicable.length ? true : on > 0 ? 'indeterminate' : false}
                         onCheckedChange={() => setRow(a, on !== applicable.length)}
                       />

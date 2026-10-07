@@ -43,5 +43,6 @@ GET  /api/v1/kanbans/{id}/board?workflowId= · PUT /api/v1/kanbans/{id}/mappings
 POST /api/v1/auth/register | login | refresh | logout | forgot-password | reset-password
 GET  /api/v1/auth/me
 GET  /api/v1/activities · /api/v1/roles · /api/v1/users · /api/v1/api-logs
+POST /api/v1/activities · PUT|DELETE /api/v1/activities/{id}     [ROLE:C/U/D] (chỉ chức năng tự thêm)
 GET  /health
 ```

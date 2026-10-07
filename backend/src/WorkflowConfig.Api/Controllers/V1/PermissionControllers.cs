@@ -1,4 +1,6 @@
 using WorkflowConfig.Api.Authorization;
+using WorkflowConfig.Application.Features.V1.Activities.Commands.DeleteActivity;
+using WorkflowConfig.Application.Features.V1.Activities.Commands.SaveActivity;
 using WorkflowConfig.Application.Common.Models;
 using WorkflowConfig.Application.Features.V1.Roles.Commands;
 using WorkflowConfig.Application.Features.V1.Roles.DTOs;
@@ -15,12 +17,31 @@ namespace WorkflowConfig.Api.Controllers.V1;
 
 /// <summary>Quản trị phân quyền 6 bảng — API chuẩn chung (chuẩn BE §4.4).</summary>
 [Route("api/v1/activities")]
-[HasPermission("ROLE:R|USER:R")]
 public sealed class ActivitiesController(ISender mediator) : ApiControllerBase(mediator)
 {
     [HttpGet]
+    [HasPermission("ROLE:R|USER:R")]
     public async Task<ActionResult<IReadOnlyList<ActivityDto>>> GetAll(CancellationToken ct) =>
         Ok(await Mediator.Send(new GetActivitiesQuery(), ct));
+
+    /// <summary>Thêm chức năng tự định nghĩa (quản lý danh mục quyền nên dùng quyền của ROLE).</summary>
+    [HttpPost]
+    [HasPermission(ConstActivity.Role, ActivityType.Create)]
+    public async Task<ActionResult<ActivityDto>> Create(SaveActivityCommand command, CancellationToken ct) =>
+        StatusCode(StatusCodes.Status201Created, await Mediator.Send(command with { Id = null }, ct));
+
+    [HttpPut("{id:guid}")]
+    [HasPermission(ConstActivity.Role, ActivityType.Update)]
+    public async Task<ActionResult<ActivityDto>> Update(Guid id, SaveActivityCommand command, CancellationToken ct) =>
+        Ok(await Mediator.Send(command with { Id = id }, ct));
+
+    [HttpDelete("{id:guid}")]
+    [HasPermission(ConstActivity.Role, ActivityType.Delete)]
+    public async Task<IActionResult> Delete(Guid id, CancellationToken ct)
+    {
+        await Mediator.Send(new DeleteActivityCommand(id), ct);
+        return NoContent();
+    }
 }
 
 [Route("api/v1/roles")]

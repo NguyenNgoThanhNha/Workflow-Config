@@ -18,6 +18,7 @@
 | Bảng bước chuyển | `GET /transition-table` |
 | Kanban: danh mục bảng (mã, tên, các cột có màu, sắp thứ tự cột) | `GET/POST /kanbans`, `GET/PUT/DELETE /kanbans/{id}` |
 | Bảng Kanban: kéo thả trạng thái của các workflow vào cột (hoặc menu "Chuyển tới cột"), cột "Chưa cấu hình", lọc theo workflow, tìm nhanh | `GET /kanbans/{id}/board?workflowId=`, `PUT /kanbans/{id}/mappings` |
+| Cài đặt → Người dùng / Vai trò / Chức năng: gán vai trò, quyền riêng từng người, tự thêm chức năng để phân quyền (chọn quyền áp dụng Thêm/Xem/Sửa/Xóa) | `/users`, `/roles`, `GET/POST/PUT/DELETE /activities` |
 | Nguồn dữ liệu Zalo (bảng / cột) | `GET /crm-tables`, `/crm-tables/{table}/columns` — chỉ schema trong `Workflow:NotificationTableSchemas` |
 
 Danh mục nhóm xử lý (`Wf_Process`), cách cập nhật người phụ trách (`Wf_UpdateMode`) và danh mục field (`Wf_Field`) được seed từ code (`WorkflowSeed`).
@@ -63,4 +64,4 @@ TEST_SQL_CONNECTION="Server=.\MSSQLSERVER01;Trusted_Connection=True;TrustServerC
 npm --prefix frontend test -- --run --pool=threads --maxWorkers=2
 ```
 
-Hiện tại: BE 45 unit + 11 integration (SQL Server thật), FE 49.
+Hiện tại: BE 50 unit + 12 integration (SQL Server thật), FE 52.

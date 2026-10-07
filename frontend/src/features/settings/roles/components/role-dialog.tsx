@@ -76,7 +76,7 @@ export function RoleDialog({
       <DialogContent className="max-h-[90svh] overflow-y-auto sm:max-w-3xl">
         <DialogHeader>
           <DialogTitle>{role ? `Sửa vai trò: ${role.name}` : 'Tạo vai trò'}</DialogTitle>
-          <DialogDescription>Chọn quyền C/R/U/D cho từng chức năng.</DialogDescription>
+          <DialogDescription>Tick quyền Thêm / Xem / Sửa / Xóa cho từng chức năng. Người dùng được gán vai trò này sẽ có các quyền đã tick.</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form id="role-form" onSubmit={onSubmit} noValidate className="space-y-4">

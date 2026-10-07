@@ -56,8 +56,8 @@ describe('PermissionMatrix', () => {
   it('disables flags that do not apply to an activity (e.g. USER only has R/U)', () => {
     render(<Harness initial={[]} onChange={() => {}} />);
     expect(screen.getByLabelText('USER R')).toBeEnabled();
-    expect(screen.getByLabelText('USER C')).toBeDisabled();
-    expect(screen.getByLabelText('USER D')).toBeDisabled();
+    expect(screen.queryByLabelText('USER C')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('USER D')).not.toBeInTheDocument();
   });
 
   it('"all" checkbox toggles every applicable flag of a row (indeterminate when partial)', async () => {

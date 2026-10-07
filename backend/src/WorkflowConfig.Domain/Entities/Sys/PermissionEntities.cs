@@ -55,6 +55,12 @@ public class SysActivity : BaseEntity
     public required string Name { get; set; }
     public string? Description { get; set; }
     public string? ApplicationName { get; set; }
+
+    /// <summary>Các quyền áp dụng cho chức năng này, chuỗi con của "CRUD" (vd "R", "RU").</summary>
+    public string Actions { get; set; } = ConstActivity.AllActions;
+
+    /// <summary>true = khai trong code (ConstActivity.All), seeder quản lý, không sửa/xóa trên giao diện.</summary>
+    public bool IsSystem { get; set; }
 }
 
 /// <summary>Sys_UserRole — user ↔ role (nhiều-nhiều).</summary>

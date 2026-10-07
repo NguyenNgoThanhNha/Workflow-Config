@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { queryKeys } from '@/lib/query-client';
-import type { RoleRequest } from '@/types';
+import type { ActivityRequest, RoleRequest } from '@/types';
 import { activitiesApi, rolesApi } from '../api/roles-api';
 
 export function useRoles(enabled = true) {
@@ -43,6 +43,33 @@ export function useDeleteRole() {
       toast.success('Đã xóa vai trò');
       void queryClient.invalidateQueries({ queryKey: queryKeys.roles });
       void queryClient.invalidateQueries({ queryKey: queryKeys.users });
+    },
+  });
+}
+
+/** Thêm (id undefined) / sửa chức năng tự định nghĩa; lỗi do dialog hiển thị. */
+export function useSaveActivity(id: string | undefined) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (body: ActivityRequest) => (id ? activitiesApi.update(id, body) : activitiesApi.create(body)),
+    meta: { suppressGlobalError: true },
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: queryKeys.activities });
+      void queryClient.invalidateQueries({ queryKey: queryKeys.roles });
+      void queryClient.invalidateQueries({ queryKey: queryKeys.me });
+    },
+  });
+}
+
+export function useDeleteActivity() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => activitiesApi.remove(id),
+    meta: { suppressGlobalError: true },
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: queryKeys.activities });
+      void queryClient.invalidateQueries({ queryKey: queryKeys.roles });
+      void queryClient.invalidateQueries({ queryKey: queryKeys.me });
     },
   });
 }

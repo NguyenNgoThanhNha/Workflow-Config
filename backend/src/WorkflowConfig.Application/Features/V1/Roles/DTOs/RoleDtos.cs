@@ -1,6 +1,7 @@
 namespace WorkflowConfig.Application.Features.V1.Roles.DTOs;
 
-public sealed record ActivityDto(Guid Id, string Code, string Name, string? Description);
+/// <summary>Actions = quyền áp dụng ("CRUD", "R"...); IsSystem = chức năng khai trong code (không sửa/xóa trên giao diện).</summary>
+public sealed record ActivityDto(Guid Id, string Code, string Name, string? Description, string Actions, bool IsSystem);
 
 public sealed record ActivityPermissionInput(Guid ActivityId, bool C, bool R, bool U, bool D)
 {

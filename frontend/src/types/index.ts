@@ -132,6 +132,17 @@ export interface ActivityDto {
   code: string;
   name: string;
   description: string | null;
+  /** quyền áp dụng, chuỗi con của "CRUD" (vd "R", "RU") */
+  actions: string;
+  /** khai trong code — không sửa/xóa trên giao diện */
+  isSystem: boolean;
+}
+
+export interface ActivityRequest {
+  code: string;
+  name: string;
+  description: string | null;
+  actions: string;
 }
 
 export interface RoleDto {
