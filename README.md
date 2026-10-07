@@ -38,6 +38,14 @@ npm --prefix frontend run dev
 
 API http://localhost:5094/swagger (Development tự migrate + seed danh mục, một workflow mẫu và `admin@local.dev` — mật khẩu trong `appsettings.Development.json`). Web http://localhost:5176 (proxy `/api` sang 5094).
 
+### Docker
+
+```bash
+docker compose up --build
+```
+
+Web http://localhost:8081 · API http://localhost:8080/swagger · SQL Server `localhost,14331`. Gồm 3 service: `db` (SQL Server 2022), `api` (tự migrate + seed khi khởi động, chạy user không phải root, healthcheck `/health`), `web` (nginx phục vụ bản build và proxy `/api` sang `api`). Mật khẩu SA, `JWT_KEY`, tài khoản admin lấy từ `.env` (mẫu ở `.env.example`); ảnh upload và dữ liệu DB nằm trong volume `uploads`, `sqldata`.
+
 ## Test
 
 ```bash
