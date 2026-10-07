@@ -27,7 +27,11 @@ public sealed class DataSeeder(
         var roles = await EnsureRolesAsync(activities, ct);
         await EnsureAdminAccountAsync(roles, ct);
         await WorkflowSeed.SyncCatalogsAsync(unitOfWork, ct);
-        if (includeDemoData) await WorkflowSeed.SeedDemoWorkflowAsync(unitOfWork, ct);
+        if (includeDemoData)
+        {
+            await WorkflowSeed.SeedDemoWorkflowAsync(unitOfWork, ct);
+            await WorkflowSeed.SeedDemoKanbanAsync(unitOfWork, ct);
+        }
 
         await unitOfWork.SaveChangesAsync(ct); // một lần, ở cuối
         logger.LogInformation("Data seeding completed");

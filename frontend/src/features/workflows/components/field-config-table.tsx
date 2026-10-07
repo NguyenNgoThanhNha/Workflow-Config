@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { cn } from '@/lib/utils';
 import type { WorkflowFormValues } from '../schemas';
-import { SegmentedControl } from './form-layout';
+import { SegmentedControl } from '@/components/common/form-layout';
 
 type TextKey = 'parameters' | 'note' | 'noteEn' | 'addDefaultValue' | 'editDefaultValue';
 type FlagKey = 'isChosen' | 'isRequired' | 'hideWhenAdd' | 'hideWhenEdit';

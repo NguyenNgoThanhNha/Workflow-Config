@@ -19,6 +19,6 @@ public static class ConstRole
     public static readonly IReadOnlyDictionary<string, IReadOnlyList<(string Code, string Flags)>> DefaultPermissions =
         new Dictionary<string, IReadOnlyList<(string, string)>>
         {
-            [User] = [(ConstActivity.Workflow, "R")]
+            [User] = [(ConstActivity.Workflow, "R"), (ConstActivity.Kanban, "R")]
         };
 }

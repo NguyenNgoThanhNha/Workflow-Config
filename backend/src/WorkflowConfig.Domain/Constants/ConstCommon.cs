@@ -45,4 +45,7 @@ public static class ConstTable
     public const string StatusFieldRule = "Wf_StatusFieldRule";
     public const string WorkflowProcess = "Wf_Process";
     public const string TransitionUpdateMode = "Wf_UpdateMode";
+    public const string Kanban = "Wf_Kanban";
+    public const string KanbanColumn = "Wf_KanbanColumn";
+    public const string KanbanStatusMapping = "Wf_KanbanStatusMapping";
 }

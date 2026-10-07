@@ -19,7 +19,7 @@ import { applyFieldErrors, showError } from '@/lib/api-errors';
 import { useDeleteStatus, useSaveStatus, useStatusForm } from '../hooks/use-workflows';
 import { statusFormSchema, type StatusFormValues } from '../schemas';
 import type { ProcessOption, WorkflowStatusForm } from '../types';
-import { FormSection, SegmentedControl, SettingRow, type SegmentOption } from './form-layout';
+import { FormSection, SegmentedControl, SettingRow, type SegmentOption } from '@/components/common/form-layout';
 
 function toValues(f: WorkflowStatusForm): StatusFormValues {
   return {

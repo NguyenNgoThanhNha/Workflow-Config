@@ -19,6 +19,9 @@ public sealed class DeleteWorkflowStatusCommandHandler(IUnitOfWork<WorkflowConfi
 
         var rules = await unitOfWork.Repository<WorkflowStatusFieldRule>().Where(r => r.StatusId == status.Id).ToListAsync(ct);
         unitOfWork.Repository<WorkflowStatusFieldRule>().RemoveRange(rules);
+        // bỏ trạng thái khỏi mọi bảng Kanban đang xếp nó
+        unitOfWork.Repository<KanbanStatusMapping>().RemoveRange(
+            await unitOfWork.Repository<KanbanStatusMapping>().Where(m => m.StatusId == status.Id).ToListAsync(ct));
         unitOfWork.Repository<WorkflowStatus>().Remove(status);
         await unitOfWork.SaveChangesAsync(ct);
     }

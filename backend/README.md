@@ -4,7 +4,8 @@ ASP.NET Core Web API (Clean Architecture + CQRS) cho ứng dụng cấu hình qu
 
 - 📐 **Luật bắt buộc:** [RULES.md](RULES.md)
 - Nghiệp vụ: `src/WorkflowConfig.Application/Features/V1/Workflows` · entity `Domain/Entities/Workflows` (bảng `Wf_*`) · controller `Api/Controllers/V1/WorkflowsController.cs`
-- Phân quyền 6 bảng `Sys_*`, activity `WORKFLOW` (C/R/U/D); role mặc định `User` có `WORKFLOW:R`.
+- Phân quyền 6 bảng `Sys_*`, activity `WORKFLOW`, `KANBAN` (C/R/U/D); role mặc định `User` có quyền R của cả hai.
+- Kanban: `Features/V1/Kanbans`, bảng `Wf_Kanban`, `Wf_KanbanColumn`, `Wf_KanbanStatusMapping`.
 
 ## Chạy
 
@@ -36,6 +37,8 @@ PUT  /api/v1/workflows/{id}/statuses/{statusId}/position · /branches/position  
 GET  /api/v1/workflows/{id}/statuses/form?statusId=              [WORKFLOW:R]
 POST|PUT|DELETE /api/v1/workflows/{id}/statuses[/{statusId}]     [WORKFLOW:U/D]
 GET|POST|PUT|DELETE /api/v1/workflows/{id}/transitions[/{transitionId}]   [WORKFLOW:R/U/D]
+GET|POST /api/v1/kanbans · GET|PUT|DELETE /api/v1/kanbans/{id}       [KANBAN:R/C/U/D]
+GET  /api/v1/kanbans/{id}/board?workflowId= · PUT /api/v1/kanbans/{id}/mappings   [KANBAN:R/U]
 
 POST /api/v1/auth/register | login | refresh | logout | forgot-password | reset-password
 GET  /api/v1/auth/me

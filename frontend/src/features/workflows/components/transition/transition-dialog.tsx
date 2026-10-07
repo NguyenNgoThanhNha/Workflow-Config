@@ -23,7 +23,7 @@ import { useDeleteTransition, useSaveTransition, useTransition } from '../../hoo
 import { transitionFormSchema, type TransitionFormValues } from '../../schemas';
 import type { Anchor, CodeName, RoleOption, TransitionDetail, TransitionSaveRequest } from '../../types';
 import type { NewTransitionDraft } from '../designer/workflow-canvas';
-import { FormSection, SegmentedControl, SettingRow, toVisibility, VISIBILITY_OPTIONS, type InputVisibility } from '../form-layout';
+import { FormSection, SegmentedControl, SettingRow, toVisibility, VISIBILITY_OPTIONS, type InputVisibility } from '@/components/common/form-layout';
 import { AutoConditionsEditor } from './auto-conditions-editor';
 import { NotificationsEditor } from './notifications-editor';
 

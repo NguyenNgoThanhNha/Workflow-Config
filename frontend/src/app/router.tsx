@@ -8,6 +8,10 @@ import { PERMISSIONS } from '@/lib/permissions';
 import { HomeRedirect, NotFound, PermissionRoute, ProtectedRoute, PublicOnlyRoute } from './route-guards';
 
 // Cài đặt / log API được tách chunk riêng (sơ đồ workflow tự lazy trong feature).
+const KanbanListPage = lazy(() => import('@/features/kanbans').then((m) => ({ default: m.KanbanListPage })));
+const KanbanCreatePage = lazy(() => import('@/features/kanbans').then((m) => ({ default: m.KanbanCreatePage })));
+const KanbanEditPage = lazy(() => import('@/features/kanbans').then((m) => ({ default: m.KanbanEditPage })));
+const KanbanBoardPage = lazy(() => import('@/features/kanbans').then((m) => ({ default: m.KanbanBoardPage })));
 const SettingsPage = lazy(() => import('@/features/settings').then((m) => ({ default: m.SettingsPage })));
 const ApiLogsPage = lazy(() => import('@/features/api-logs').then((m) => ({ default: m.ApiLogsPage })));
 
@@ -44,6 +48,18 @@ export const routes: RouteObject[] = [
           {
             element: <PermissionRoute anyOf={PERMISSIONS.createWorkflow} />,
             children: [{ path: '/workflows/new', element: <WorkflowCreatePage /> }],
+          },
+          {
+            element: <PermissionRoute anyOf={PERMISSIONS.kanbans} />,
+            children: [
+              { path: '/kanbans', element: <KanbanListPage /> },
+              { path: '/kanbans/:id', element: <KanbanEditPage /> },
+              { path: '/kanbans/:id/board', element: <KanbanBoardPage /> },
+            ],
+          },
+          {
+            element: <PermissionRoute anyOf={PERMISSIONS.createKanban} />,
+            children: [{ path: '/kanbans/new', element: <KanbanCreatePage /> }],
           },
           {
             element: <PermissionRoute anyOf={PERMISSIONS.settings} />,

@@ -24,6 +24,8 @@ export function canAny(user: CurrentUserDto | null | undefined, requirements: re
 export const PERMISSIONS = {
   workflows: [['WORKFLOW', 'R']],
   createWorkflow: [['WORKFLOW', 'C']],
+  kanbans: [['KANBAN', 'R']],
+  createKanban: [['KANBAN', 'C']],
   apiLogs: [['API_LOG', 'R']],
   /** Settings page is visible when the user can manage at least one of its tabs. */
   settings: [

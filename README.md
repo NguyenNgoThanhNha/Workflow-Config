@@ -2,8 +2,8 @@
 
 Ứng dụng cấu hình quy trình xử lý nhiệm vụ: trạng thái, bước chuyển, phân quyền, điều kiện tự động và thông báo.
 
-- **backend/** — ASP.NET Core dựng từ `Backend_Api_Template`, theo [backend/RULES.md](backend/RULES.md): CQRS `Features/V1/Workflows`, `IUnitOfWork<>`, phân quyền 6 bảng (activity `WORKFLOW` C/R/U/D), log API, ProblemDetails.
-- **frontend/** — React 19 + shadcn/ui, cấu trúc feature-based (`src/features/workflows/{api,hooks,components,pages,schemas.ts,types.ts,index.ts}`); sơ đồ dùng React Flow.
+- **backend/** — ASP.NET Core dựng từ `Backend_Api_Template`, theo [backend/RULES.md](backend/RULES.md): CQRS `Features/V1/Workflows`, `IUnitOfWork<>`, phân quyền 6 bảng (activity `WORKFLOW`, `KANBAN` C/R/U/D), log API, ProblemDetails.
+- **frontend/** — React 19 + shadcn/ui, cấu trúc feature-based (`src/features/{workflows,kanbans}/{api,hooks,components,pages,schemas.ts,types.ts,index.ts}`); sơ đồ dùng React Flow, kéo thả Kanban dùng dnd-kit.
 
 ## Chức năng
 
@@ -16,12 +16,15 @@
 | Trạng thái: màu, push notification, quyền sửa field theo vai trò | `GET /statuses/form`, `POST/PUT/DELETE /statuses` |
 | Bước chuyển: ký số, phân quyền, cập nhật người phụ trách, điều kiện tự động, thông báo Push/Zalo/Email | `GET/POST/PUT/DELETE /transitions` |
 | Bảng bước chuyển | `GET /transition-table` |
+| Kanban: danh mục bảng (mã, tên, các cột có màu, sắp thứ tự cột) | `GET/POST /kanbans`, `GET/PUT/DELETE /kanbans/{id}` |
+| Bảng Kanban: kéo thả trạng thái của các workflow vào cột (hoặc menu "Chuyển tới cột"), cột "Chưa cấu hình", lọc theo workflow, tìm nhanh | `GET /kanbans/{id}/board?workflowId=`, `PUT /kanbans/{id}/mappings` |
 | Nguồn dữ liệu Zalo (bảng / cột) | `GET /crm-tables`, `/crm-tables/{table}/columns` — chỉ schema trong `Workflow:NotificationTableSchemas` |
 
 Danh mục nhóm xử lý (`Wf_Process`), cách cập nhật người phụ trách (`Wf_UpdateMode`) và danh mục field (`Wf_Field`) được seed từ code (`WorkflowSeed`).
 
 Quy tắc chính:
-- Không xóa được trạng thái còn bước chuyển đi ra / đi vào (409).
+- Không xóa được trạng thái còn bước chuyển đi ra / đi vào (409). Xóa trạng thái hoặc xóa cột Kanban → trạng thái tự rời khỏi bảng Kanban.
+- Mỗi trạng thái nằm tối đa một cột trong một bảng Kanban (index unique).
 - Sửa workflow kèm `rowVersion`: hai người cùng sửa thì người lưu sau nhận 409.
 - Điều kiện / thông báo của bước chuyển đồng bộ theo Id (dòng bị bỏ khỏi form sẽ bị xóa).
 - Không ký → bỏ Người ký; cách cập nhật người phụ trách chỉ giữ giá trị khớp chế độ (Roles → nhóm, Department/Employee → mã).
@@ -60,4 +63,4 @@ TEST_SQL_CONNECTION="Server=.\MSSQLSERVER01;Trusted_Connection=True;TrustServerC
 npm --prefix frontend test -- --run --pool=threads --maxWorkers=2
 ```
 
-Hiện tại: BE 40 unit + 10 integration (SQL Server thật), FE 44.
+Hiện tại: BE 45 unit + 11 integration (SQL Server thật), FE 49.

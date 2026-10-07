@@ -20,6 +20,7 @@ const ACTION_LABEL: Record<ActivityAction, string> = { C: 'Thêm', R: 'Xem', U: 
  */
 const APPLICABLE: Record<string, readonly ActivityAction[]> = {
   WORKFLOW: ['C', 'R', 'U', 'D'],
+  KANBAN: ['C', 'R', 'U', 'D'],
   USER: ['R', 'U'],
   ROLE: ['C', 'R', 'U', 'D'],
   API_LOG: ['R'],

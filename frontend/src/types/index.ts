@@ -6,6 +6,7 @@ export type ActivityAction = (typeof ACTIVITY_ACTIONS)[number];
 /** Activity codes shared by FE/BE (see API contract "Phân quyền"). */
 export const ACTIVITY = {
   WORKFLOW: 'WORKFLOW',
+  KANBAN: 'KANBAN',
   USER: 'USER',
   ROLE: 'ROLE',
   API_LOG: 'API_LOG',

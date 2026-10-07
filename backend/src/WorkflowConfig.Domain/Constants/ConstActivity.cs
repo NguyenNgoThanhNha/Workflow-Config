@@ -15,6 +15,7 @@ public static class ConstActivity
 
     // --- Nghiệp vụ ---
     public const string Workflow = "WORKFLOW";
+    public const string Kanban = "KANBAN";
 
     public sealed record Definition(string Code, string Name, string Description);
 
@@ -23,6 +24,7 @@ public static class ConstActivity
         new(User, "Người dùng", "R: xem user · U: khóa/mở, gán role, cấp quyền riêng"),
         new(Role, "Vai trò", "C: tạo · R: xem · U: sửa quyền role · D: xóa role"),
         new(ApiLog, "Log API", "R: xem log request/response API để debug"),
-        new(Workflow, "Cấu hình quy trình", "C: tạo/copy workflow · R: xem · U: sửa workflow, trạng thái, bước chuyển · D: xóa trạng thái/bước chuyển")
+        new(Workflow, "Cấu hình quy trình", "C: tạo/copy workflow · R: xem · U: sửa workflow, trạng thái, bước chuyển · D: xóa trạng thái/bước chuyển"),
+        new(Kanban, "Bảng Kanban", "C: tạo · R: xem · U: sửa cột, xếp trạng thái vào cột · D: xóa")
     ];
 }

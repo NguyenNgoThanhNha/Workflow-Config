@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import type { LucideIcon } from 'lucide-react';
-import { FileClock, Network, Settings, Workflow } from 'lucide-react';
+import { FileClock, Kanban, Network, Settings, Workflow } from 'lucide-react';
 import {
   Sidebar,
   SidebarContent,
@@ -25,7 +25,10 @@ interface NavItem {
   anyOf: readonly PermissionRequirement[];
 }
 
-export const NAV_MAIN: NavItem[] = [{ to: '/workflows', label: 'Workflow', icon: Network, anyOf: PERMISSIONS.workflows }];
+export const NAV_MAIN: NavItem[] = [
+  { to: '/workflows', label: 'Workflow', icon: Network, anyOf: PERMISSIONS.workflows },
+  { to: '/kanbans', label: 'Kanban', icon: Kanban, anyOf: PERMISSIONS.kanbans },
+];
 
 export const NAV_ADMIN: NavItem[] = [
   { to: '/settings', label: 'Cài đặt', icon: Settings, anyOf: PERMISSIONS.settings },

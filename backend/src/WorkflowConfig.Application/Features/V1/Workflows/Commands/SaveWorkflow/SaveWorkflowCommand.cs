@@ -165,6 +165,8 @@ public sealed class SaveWorkflowCommandHandler(IUnitOfWork<WorkflowConfigDbConte
             // Quy tắc field theo trạng thái bị xóa cùng trạng thái.
             var rules = await unitOfWork.Repository<WorkflowStatusFieldRule>().Where(r => removedIds.Contains(r.StatusId)).ToListAsync(ct);
             unitOfWork.Repository<WorkflowStatusFieldRule>().RemoveRange(rules);
+            unitOfWork.Repository<KanbanStatusMapping>().RemoveRange(
+                await unitOfWork.Repository<KanbanStatusMapping>().Where(m => removedIds.Contains(m.StatusId)).ToListAsync(ct));
         }
 
         ChildSync.Apply(set, existing, inputs, s => s.Id, i => i.Id,

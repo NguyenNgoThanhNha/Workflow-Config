@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { buildSqlText, COMPARISONS, CONDITION_CONNECTORS, CONDITION_TYPES, VALUE_TYPES } from '../../constants';
 import type { TransitionFormValues } from '../../schemas';
-import { SegmentedControl } from '../form-layout';
+import { SegmentedControl } from '@/components/common/form-layout';
 
 const NONE = '__none__';
 

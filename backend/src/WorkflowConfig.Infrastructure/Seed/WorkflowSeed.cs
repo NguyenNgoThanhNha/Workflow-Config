@@ -12,6 +12,8 @@ namespace WorkflowConfig.Infrastructure.Seed;
 /// </summary>
 internal static class WorkflowSeed
 {
+    private const string DemoWorkflowCode = "DEMO_DUYET_HD";
+
     private static readonly (string Code, string Name, string Background, string Text)[] Processes =
     [
         (ConstWorkflow.Process.Todo, "Cần làm", "#DFE1E6", "#42526E"),
@@ -88,12 +90,11 @@ internal static class WorkflowSeed
     /// <summary>Một workflow mẫu có rẽ nhánh để màn sơ đồ có dữ liệu ngay ở môi trường dev.</summary>
     public static async Task SeedDemoWorkflowAsync(IUnitOfWork<WorkflowConfigDbContext> unitOfWork, CancellationToken ct)
     {
-        const string demoCode = "DEMO_DUYET_HD";
-        if (await unitOfWork.Repository<Workflow>().AnyAsync(w => w.Code == demoCode, ct)) return;
+        if (await unitOfWork.Repository<Workflow>().AnyAsync(w => w.Code == DemoWorkflowCode, ct)) return;
 
         var workflow = new Workflow
         {
-            Code = demoCode, Name = "Duyệt hợp đồng (mẫu)", CategoryCode = "NV", CompanyCode = "1000", OrderIndex = 1
+            Code = DemoWorkflowCode, Name = "Duyệt hợp đồng (mẫu)", CategoryCode = "NV", CompanyCode = "1000", OrderIndex = 1
         };
         workflow.RefreshSearchText();
 
@@ -130,5 +131,38 @@ internal static class WorkflowSeed
         }
 
         unitOfWork.Repository<Workflow>().Add(workflow);
+    }
+
+    /// <summary>Bảng Kanban mẫu: 3 cột theo nhóm xử lý, xếp sẵn trạng thái của workflow mẫu (nếu có).</summary>
+    public static async Task SeedDemoKanbanAsync(IUnitOfWork<WorkflowConfigDbContext> unitOfWork, CancellationToken ct)
+    {
+        const string code = "KB_CHUNG";
+        if (await unitOfWork.Repository<Kanban>().AnyAsync(k => k.Code == code, ct)) return;
+
+        var kanban = new Kanban { Code = code, Name = "Kanban chung (mẫu)", OrderIndex = 1 };
+        kanban.RefreshSearchText();
+        var columns = new Dictionary<string, KanbanColumn>
+        {
+            [ConstWorkflow.Process.Todo] = new() { KanbanId = kanban.Id, Name = "Cần làm", OrderIndex = 1, Color = "#42526E" },
+            [ConstWorkflow.Process.Processing] = new() { KanbanId = kanban.Id, Name = "Đang xử lý", OrderIndex = 2, Color = "#0747A6" },
+            [ConstWorkflow.Process.Completed] = new() { KanbanId = kanban.Id, Name = "Hoàn thành", OrderIndex = 3, Color = "#006644" }
+        };
+        foreach (var c in columns.Values) kanban.Columns.Add(c);
+        unitOfWork.Repository<Kanban>().Add(kanban);
+
+        // trạng thái của workflow mẫu: vừa thêm trong lần seed này (Local) hoặc đã có trong DB
+        var demo = unitOfWork.Repository<Workflow>().Local.FirstOrDefault(w => w.Code == DemoWorkflowCode)
+                   ?? await unitOfWork.Repository<Workflow>().FirstOrDefaultAsync(w => w.Code == DemoWorkflowCode, ct);
+        if (demo is null) return;
+        var statuses = demo.Statuses.Count > 0
+            ? demo.Statuses.ToList()
+            : await unitOfWork.Repository<WorkflowStatus>().Where(s => s.WorkflowId == demo.Id).ToListAsync(ct);
+        foreach (var status in statuses.Where(s => s.Code != "REJECTED" && columns.ContainsKey(s.ProcessCode)))
+        {
+            unitOfWork.Repository<KanbanStatusMapping>().Add(new KanbanStatusMapping
+            {
+                KanbanId = kanban.Id, ColumnId = columns[status.ProcessCode].Id, StatusId = status.Id
+            });
+        }
     }
 }
